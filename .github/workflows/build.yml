@@ -1,5 +1,6 @@
 name: Build Kernel
 on: [push]
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -8,17 +9,21 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Setup Toolchain
-        run: sudo apt-get update && sudo apt-get install gcc-arm-linux-gnueabi ccache
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y gcc-arm-linux-gnueabi ccache
 
-            - name: Build Kernel
+      - name: Build Kernel
         run: |
           export ARCH=arm
           export CROSS_COMPILE=arm-linux-gnueabi-
           export USE_CCACHE=1
-          # Agar file arch/arm/configs/ ke andar direct hai, toh ye command chalegi
-          make O5lteswa_LP_defconfig
-          make -j$(nproc)
           
+          # Is line mein hum file ka path confirm kar rahe hain
+          make O5lteswa_LP_defconfig ARCH=arm
+          
+          # Kernel build shuru karein
+          make -j$(nproc) ARCH=arm CROSS_COMPILE=arm-linux-gnueabi-
 
       - name: Upload zImage
         uses: actions/upload-artifact@v4
