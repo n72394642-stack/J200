@@ -10,13 +10,15 @@ jobs:
       - name: Setup Toolchain
         run: sudo apt-get update && sudo apt-get install gcc-arm-linux-gnueabi ccache
 
-      - name: Build Kernel
+            - name: Build Kernel
         run: |
           export ARCH=arm
           export CROSS_COMPILE=arm-linux-gnueabi-
           export USE_CCACHE=1
+          # Agar file arch/arm/configs/ ke andar direct hai, toh ye command chalegi
           make O5lteswa_LP_defconfig
           make -j$(nproc)
+          
 
       - name: Upload zImage
         uses: actions/upload-artifact@v4
