@@ -19,12 +19,10 @@ jobs:
           export CROSS_COMPILE=arm-linux-gnueabi-
           export USE_CCACHE=1
           
-          # 1. Pehle folder check karte hain ki file kahan hai
-          echo "Listing all files in configs:"
-          ls -R arch/arm/configs/
+          # Yahan file ka naam small 'o' ke saath hai
+          make o5lteswa_LP_defconfig ARCH=arm
           
-          # 2. Ab build shuru karte hain (agar file direct folder mein hogi toh ye chal jayega)
-          make O5lteswa_LP_defconfig ARCH=arm
+          # Kernel build shuru karein
           make -j$(nproc) ARCH=arm CROSS_COMPILE=arm-linux-gnueabi-
 
       - name: Upload zImage
